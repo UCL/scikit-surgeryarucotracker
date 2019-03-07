@@ -1,0 +1,6 @@
+[run]
+omit = 
+        ./scikit-surgerytracker/_version.py
+        ./scikit-surgerytracker/__init__.py
+        ./scikit-surgerytracker/__main__.py
+        ./scikit-surgerytracker/ui/scikit-surgerytracker_command_line.py
