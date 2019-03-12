@@ -3,10 +3,9 @@
 """A class for straightforward tracking with an ARuCo
 """
 from time import time
-from numpy import full, nan
+from numpy import full, nan, nditer
 import cv2.aruco as aruco
-import cv2 import VideoCapture
-#from importlib import import_module
+from cv2 import VideoCapture
 
 class ArUcoTracker:
     """
@@ -34,13 +33,15 @@ class ArUcoTracker:
         """
 
         self._video_source = 0
-        self._ar_dict = getattr (aruco, 'DICT_4X4_50')
+        self._ar_dictionary_name = getattr (aruco, 'DICT_4X4_50')
+        self._ar_dict = None
         self._marker_size = 50
         self._camera_projection_matrix = None
         self._camera_distortion = None
-        self._estimate_pose = False
+        self._estimate_pose_using_calibration = False
         self._state = None
         self._capture = VideoCapture()
+        self._frame_number = 0
 
         if "video source" in configuration:
             self._video_source = configuration.get("video source")
@@ -48,9 +49,11 @@ class ArUcoTracker:
         if "aruco dictionary" in configuration:
             dictionary_name = configuration.get("aruco dictionary")
             try:
-                self.ar_dict = getattr (aruco, dictionary_name)
+                self._ar_dictionary_name = getattr (aruco, dictionary_name)
             except AttributeError:
                 raise ImportError('Failed when trying to import {} from cv2.aruco. Check dictionary exists.'.format(dictionary_name))
+
+        self._ar_dict = aruco.getPredefinedDictionary ( self._ar_dictionary_name )
 
         if "marker size" in configuration:
             self._marker_size = configuration.get("marker size")
@@ -61,14 +64,14 @@ class ArUcoTracker:
         if "camera distortion" in configuration:
             self._camera_distortion = configuration.get("camera distortion")
 
-        self._estimate_pose = self._pose_estimation_ok()
+        self._estimate_pose_using_calibration = self._pose_estimation_ok()
 
         if self._capture.open(self._video_source):
             self._state = "ready"
-        else
-            raise HardwareError ('Failed to open video source {}'.format(self._video_source)
+        else:
+            raise HardwareError ('Failed to open video source {}'.format(self._video_source))
 
-    def _pose_estimation_ok():
+    def _pose_estimation_ok(self):
         """Checks that the camera projection matrix and camera distortion
         matrices can be used to estimate pose"""
         if self._camera_projection_matrix != None:
@@ -84,7 +87,7 @@ class ArUcoTracker:
 
         :raise Exception: ValueError
         """
-        self._capture.close()
+        self._capture.release()
         del self._capture
         self._state = None
 
@@ -97,6 +100,43 @@ class ArUcoTracker:
         """
         if self._state != "tracking":
             raise ValueError ('Attempted to get frame, when not tracking')
+
+        ret, frame = self._capture.read()
+
+        marker_corners, marker_ids, _ = aruco.detectMarkers(frame, self._ar_dict)
+
+        port_handles=[]
+        time_stamps=[]
+        frame_numbers=[]
+        tracking_quality=[]
+
+        timestamp = time()
+        for marker in nditer(marker_ids):
+            port_handles.append(marker.item())
+            time_stamps.append(timestamp)
+            frame_numbers.append(self._frame_number)
+            tracking_quality.append(nan)
+
+        self._frame_number += 1
+
+        if self._estimate_pose_using_calibration:
+            tracking = self._get_poses_with_calibration ( marker_corners )
+        else:
+            tracking = self._get_poses_without_calibration ( marker_corners )
+
+        return port_handles, time_stamps, frame_numbers, tracking_quality, marker_ids, marker_corners
+
+    def _get_poses_with_calibration ( self, marker_corners ):
+        rvecs, tvecs, _ = \
+            aruco.estimatePoseSingleMarkers(marker_corners,
+                                                    self._marker_size,
+                                                    self._camera_projection_mat,
+                                                    self._camera_distortion)
+
+    def _get_poses_without_calibration ( self, marker_corners ):
+        for tracking in nditer ( marker_corners ):
+            print (tracking)
+
 
     def get_tool_descriptions(self):
         """ Returns tool descriptions """
