@@ -3,9 +3,13 @@
 """A class for straightforward tracking with an ARuCo
 """
 from time import time
-from numpy import full, nan, nditer
+from numpy import full, nan, nditer, array, mean , max, min, float32
+from numpy.linalg import norm
 import cv2.aruco as aruco
 from cv2 import VideoCapture
+
+from sksurgerycore.transforms.matrix import ( construct_rotm_from_euler, 
+    construct_rigid_transformation )
 
 class ArUcoTracker:
     """
@@ -29,7 +33,7 @@ class ArUcoTracker:
 
             camera distortion: defaults to None
 
-        :raise Exception: ImportError
+        :raise Exception: ImportError, ValueError
         """
 
         self._video_source = 0
@@ -37,7 +41,7 @@ class ArUcoTracker:
         self._ar_dict = None
         self._marker_size = 50
         self._camera_projection_matrix = None
-        self._camera_distortion = None
+        self._camera_distortion = array ( [ 0.0, 0.0, 0.0, 0,0 ] , dtype = float32 )
         self._estimate_pose_using_calibration = False
         self._state = None
         self._capture = VideoCapture()
@@ -58,27 +62,26 @@ class ArUcoTracker:
         if "marker size" in configuration:
             self._marker_size = configuration.get("marker size")
 
-        if "camera projection matrix" in configuration:
-            self._camera_projection_matrix = configuration.get("camera projection matrix")
-
         if "camera distortion" in configuration:
             self._camera_distortion = configuration.get("camera distortion")
 
-        self._estimate_pose_using_calibration = self._pose_estimation_ok()
+        if "camera projection matrix" in configuration:
+            self._camera_projection_matrix = configuration.get("camera projection matrix")
+            self._check_pose_estimation_ok()
 
         if self._capture.open(self._video_source):
             self._state = "ready"
         else:
             raise HardwareError ('Failed to open video source {}'.format(self._video_source))
 
-    def _pose_estimation_ok(self):
+    def _check_pose_estimation_ok(self):
         """Checks that the camera projection matrix and camera distortion
         matrices can be used to estimate pose"""
-        if self._camera_projection_matrix != None:
-            return True
+        if self._camera_projection_matrix.shape == (3,3) and self._camera_projection_matrix.dtype == float32:
+            self._estimate_pose_using_calibration = True
         else:
-            return False
-
+            raise ValueError('Camera projection matrix needs to be 3x3 and float32', self._camera_projection_matrix.shape, 
+                    self._camera_projection_matrix.dtype)
 
     def close(self):
         """
@@ -124,18 +127,35 @@ class ArUcoTracker:
         else:
             tracking = self._get_poses_without_calibration ( marker_corners )
 
-        return port_handles, time_stamps, frame_numbers, tracking_quality, marker_ids, marker_corners
+        return port_handles, time_stamps, frame_numbers, tracking, tracking_quality
 
     def _get_poses_with_calibration ( self, marker_corners ):
         rvecs, tvecs, _ = \
             aruco.estimatePoseSingleMarkers(marker_corners,
                                                     self._marker_size,
-                                                    self._camera_projection_mat,
+                                                    self._camera_projection_matrix,
                                                     self._camera_distortion)
+        tracking = []
+        t_index=0
+        for rvec in rvecs:
+            rot_mat = construct_rotm_from_euler(rvec[0][0], rvec[0][1],rvec[0][2],'xyz',is_in_radians=True)
+            tracking.append ( construct_rigid_transformation ( rot_mat, tvecs[t_index][0] ) )
+            t_index += 1
+        return tracking
 
     def _get_poses_without_calibration ( self, marker_corners ):
-        for tracking in nditer ( marker_corners ):
-            print (tracking)
+        tracking = []
+        for marker in marker_corners:
+            means=mean(marker[0], axis = 0)
+            maxs= max(marker[0], axis = 0)
+            mins= min(marker[0], axis = 0)
+            size= norm(maxs - mins)
+            tracking.append ( array ([[ 1.0, 0.0, 0.0, means[0]],
+                            [ 0.0, 1.0, 0.0, means[1]],
+                            [ 0.0, 0.0, 1.0, size ],
+                            [ 0.0, 0.0, 0.0, 1.0 ] ] , dtype=float32))
+        return tracking
+
 
 
     def get_tool_descriptions(self):

@@ -10,9 +10,8 @@ tracker=ArUcoTracker(config1)
 tracker.start_tracking()
 print (tracker.get_tool_descriptions())
   
-phs, tss , fns, qls, ids, corners = tracker.get_frame()
-print (tss, fns, phs, qls)
-print (corners)
+phs, tss , fns, tracking,  qls, = tracker.get_frame()
+print (phs, tss, fns, tracking, qls)
 
 tracker.stop_tracking()
 tracker.close()
