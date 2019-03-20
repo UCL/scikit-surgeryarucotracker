@@ -196,6 +196,7 @@ class ArUcoTracker:
             self._state = "tracking"
         else:
             raise ValueError('Attempted to start tracking, when not ready')
+
     def stop_tracking(self):
         """
         Tells the tracking devices to stop tracking.
