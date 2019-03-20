@@ -6,6 +6,7 @@ import pytest
 from numpy import array, float32
 from sksurgeryarucotracker.arucotracker import ArUcoTracker
 
+
 def test_on_video_with_single_tag():
     """
     connect track and close with single tag,
@@ -22,12 +23,13 @@ def test_on_video_with_single_tag():
     tracker.stop_tracking()
     tracker.close()
 
+
 def test_on_static_muti_tag():
     """
     connect track and close with multi tag,
     reqs: 03, 04 ,05, 07
     """
-    config = {'video source' : 'data/12markers.png',
+    config = {'video source' : 'data/12markers.avi',
               'aruco dictionary' : 'DICT_6X6_250'}
 
     tracker = ArUcoTracker(config)
@@ -38,6 +40,7 @@ def test_on_static_muti_tag():
 
     tracker.stop_tracking()
     tracker.close()
+
 
 def test_on_video_with_calib():
     """
@@ -64,6 +67,7 @@ def test_on_video_with_calib():
     tracker.stop_tracking()
     tracker.close()
 
+
 def test_throw_on_bad_source():
     """
     Tests that OS error is thrown when an invalid source is used.,
@@ -74,6 +78,7 @@ def test_throw_on_bad_source():
 
     with pytest.raises(OSError):
         _tracker = ArUcoTracker(config)
+
 
 def test_throw_on_bad_calibration():
     """
@@ -95,11 +100,12 @@ def test_invalid_dictionary():
     Tests that Import error is thrown when an invalid aruco dictionary is used.
     reqs:
     """
-    config = {'video source' : 'data/12markers.png',
+    config = {'video source' : 'data/12markers.avi',
               'aruco dictionary' : 'DICT_7X6_250'}
 
     with pytest.raises(ImportError):
         _tracker = ArUcoTracker(config)
+
 
 def test_getframe_no_tracking():
     """
@@ -114,6 +120,7 @@ def test_getframe_no_tracking():
          _tracking, _quality) = tracker.get_frame()
     tracker.close()
 
+
 def test_get_tool_descriptions():
     """
     Tests that get too descriptions returns something.
@@ -125,12 +132,13 @@ def test_get_tool_descriptions():
     tracker.get_tool_descriptions()
     tracker.close()
 
+
 def test_start_tracking_throws():
     """
     Tests that value error is thrown when start tracking called when not ready.
     reqs:
     """
-    config = {'video source' : 'data/12markers.png'}
+    config = {'video source' : 'data/12markers.avi'}
     tracker = ArUcoTracker(config)
     tracker.start_tracking()
 
@@ -146,7 +154,7 @@ def test_stop_tracking_throws():
     not tracking.
     reqs:
     """
-    config = {'video source' : 'data/12markers.png'}
+    config = {'video source' : 'data/12markers.avi'}
     tracker = ArUcoTracker(config)
 
     with pytest.raises(ValueError):
