@@ -60,7 +60,10 @@ build windows installer:
 
 test Linux:
   stage: test
+  variables:
+    DISPLAY: localhost:1
   script:
+      - echo "DISPLAY=${DISPLAY}"
       - tox
   tags:
     - shared-linux, gui
