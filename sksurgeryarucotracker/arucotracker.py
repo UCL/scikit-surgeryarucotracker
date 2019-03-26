@@ -8,7 +8,7 @@ from numpy import min as npmin
 from numpy import max as npmax
 from numpy.linalg import norm
 import cv2.aruco as aruco # pylint: disable=import-error
-from cv2 import VideoCapture
+from cv2 import VideoCapture, imshow
 
 from sksurgerycore.transforms.matrix import (construct_rotm_from_euler,
                                              construct_rigid_transformation)
@@ -64,6 +64,10 @@ class ArUcoTracker:
         self._state = None
         self._capture = VideoCapture()
         self._frame_number = 0
+        self._debug = False
+
+        if "debug" in configuration:
+            self._debug = configuration.get("debug")
 
         if "video source" in configuration:
             self._video_source = configuration.get("video source")
@@ -155,6 +159,11 @@ class ArUcoTracker:
             time_stamps.append(timestamp)
             frame_numbers.append(self._frame_number)
             tracking_quality.append(nan)
+
+        if self._debug:
+            if marker_corners:
+                aruco.drawDetectedMarkers(frame, marker_corners)
+            imshow('frame', frame)
 
         self._frame_number += 1
 

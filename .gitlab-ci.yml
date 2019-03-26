@@ -63,7 +63,7 @@ test Linux:
   script:
       - tox
   tags:
-    - shared-linux
+    - shared-linux, gui
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
 
 
@@ -72,7 +72,7 @@ test macOS:
   script:
       - tox
   tags:
-    - shared-mac
+    - shared-mac, gui
 
 
 test Windows:
@@ -80,7 +80,7 @@ test Windows:
   script:
       - tox
   tags:
-    - shared-win
+    - shared-win, gui
 
 
 deploy docs to staging:
