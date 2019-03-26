@@ -152,25 +152,28 @@ class ArUcoTracker:
         time_stamps = []
         frame_numbers = []
         tracking_quality = []
+        tracking = None
 
         timestamp = time()
-        for marker in nditer(marker_ids):
-            port_handles.append(marker.item())
-            time_stamps.append(timestamp)
-            frame_numbers.append(self._frame_number)
-            tracking_quality.append(nan)
 
-        if self._debug:
-            if marker_corners:
+        if marker_corners:
+            for marker in nditer(marker_ids):
+                port_handles.append(marker.item())
+                time_stamps.append(timestamp)
+                frame_numbers.append(self._frame_number)
+                tracking_quality.append(nan)
+
+            if self._use_camera_projection:
+                tracking = self._get_poses_with_calibration(marker_corners)
+            else:
+                tracking = _get_poses_without_calibration(marker_corners)
+
+            if self._debug:
                 aruco.drawDetectedMarkers(frame, marker_corners)
-            imshow('frame', frame)
 
         self._frame_number += 1
-
-        if self._use_camera_projection:
-            tracking = self._get_poses_with_calibration(marker_corners)
-        else:
-            tracking = _get_poses_without_calibration(marker_corners)
+        if self._debug:
+            imshow('frame', frame)
 
         return (port_handles, time_stamps, frame_numbers, tracking,
                 tracking_quality)
