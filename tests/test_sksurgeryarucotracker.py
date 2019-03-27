@@ -60,6 +60,29 @@ def test_on_static_muti_tag():
     tracker.close()
 
 
+def test_setting_capture_properties():
+    """
+    connect track and close with multi tag,
+    reqs: 03, 04 ,05, 07
+    """
+    config = {'video source' : 'data/12markers.avi',
+              'aruco dictionary' : 'DICT_6X6_250',
+              "capture properties" :
+                            {"CAP_PROP_FRAME_WIDTH" : 1280,
+                             "CAP_PROP_FRAME_HEIGHT" : 1024}
+              }
+
+    tracker = ArUcoTracker(config)
+    tracker.start_tracking()
+
+    (_port_handles, _timestamps, _framenumbers,
+     _tracking, _quality) = tracker.get_frame()
+
+    tracker.stop_tracking()
+    tracker.close()
+
+
+
 def test_on_video_with_calib():
     """
     connect track and close with single tag,

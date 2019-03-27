@@ -9,6 +9,7 @@ from numpy import max as npmax
 from numpy.linalg import norm
 import cv2.aruco as aruco # pylint: disable=import-error
 from cv2 import VideoCapture, imshow
+import cv2
 
 from sksurgerycore.transforms.matrix import (construct_rotm_from_euler,
                                              construct_rigid_transformation)
@@ -22,7 +23,7 @@ def _get_poses_without_calibration(marker_corners):
         size = norm(maxs - mins)
         tracking.append(array([[1.0, 0.0, 0.0, means[0]],
                                [0.0, 1.0, 0.0, means[1]],
-                               [0.0, 0.0, 1.0, size],
+                               [0.0, 0.0, 1.0, -size],
                                [0.0, 0.0, 0.0, 1.0]], dtype=float32))
     return tracking
 
@@ -95,6 +96,16 @@ class ArUcoTracker:
             self._check_pose_estimation_ok()
 
         if self._capture.open(video_source):
+            #try setting some properties
+            if "capture properties" in configuration:
+                props = configuration.get("capture properties")
+                for prop in props:
+                    cvprop = getattr(cv2, prop)
+                    value = props[prop]
+                    self._capture.set(cvprop, value)
+
+           # self._capture.set(3,1280)
+           # self._capture.set(4,1024)
             self._state = "ready"
         else:
             raise OSError('Failed to open video source {}'
