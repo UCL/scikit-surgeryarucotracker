@@ -1,22 +1,22 @@
 scikit-surgerytracker
 ===============================
 
-.. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgerytracker/raw/master/project-icon.png
+.. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/raw/master/project-icon.png
    :height: 128px
    :width: 128px
-   :target: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgerytracker
+   :target: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker
    :alt: Logo
 
-.. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgerytracker/badges/master/build.svg
-   :target: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgerytracker/pipelines
+.. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/badges/master/build.svg
+   :target: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/pipelines
    :alt: GitLab-CI test status
 
-.. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgerytracker/badges/master/coverage.svg
-    :target: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgerytracker/commits/master
+.. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/badges/master/coverage.svg
+    :target: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/commits/master
     :alt: Test coverage
 
-.. image:: https://readthedocs.org/projects/scikit-surgerytracker/badge/?version=latest
-    :target: http://scikit-surgerytracker.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/scikit-surgeryarucotracker/badge/?version=latest
+    :target: http://scikit-surgeryarucotracker.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 
