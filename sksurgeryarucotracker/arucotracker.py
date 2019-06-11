@@ -3,7 +3,7 @@
 """A class for straightforward tracking with an ARuCo
 """
 from time import time
-from numpy import nan, nditer, array, mean, float32
+from numpy import nditer, array, mean, float32
 from numpy import min as npmin
 from numpy import max as npmax
 from numpy.linalg import norm
@@ -172,7 +172,7 @@ class ArUcoTracker:
                 port_handles.append(marker.item())
                 time_stamps.append(timestamp)
                 frame_numbers.append(self._frame_number)
-                tracking_quality.append(nan)
+                tracking_quality.append(1.0)
 
             if self._use_camera_projection:
                 tracking = self._get_poses_with_calibration(marker_corners)
