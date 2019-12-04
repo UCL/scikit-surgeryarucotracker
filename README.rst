@@ -1,4 +1,4 @@
-scikit-surgerytracker
+scikit-surgeryarucotracker
 ===============================
 
 .. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/raw/master/project-icon.png
@@ -27,7 +27,7 @@ scikit-surgeryarucotracker provides a simple Python interface between OpenCV's A
 
 scikit-surgeryarucotracker is part of the `SNAPPY`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
 
-scikit-surgeryarucotracker supports Python 2.7 and Python 3.6.
+scikit-surgeryarucotracker is tested with Python 3.6 and may support other Python versions.
 
 Installing
 ----------
@@ -94,7 +94,7 @@ Licensing and copyright
 -----------------------
 
 Copyright 2019 University College London.
-scikit-surgerytracker is released under the BSD-3 license. Please see the `license file`_ for details.
+scikit-surgeryarucotracker is released under the BSD-3 license. Please see the `license file`_ for details.
 
 
 Acknowledgements
