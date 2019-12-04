@@ -1,4 +1,4 @@
-scikit-surgerytracker
+scikit-surgeryarucotracker
 ===============================
 
 .. image:: https://weisslab.cs.ucl.ac.uk/WEISS/SoftwareRepositories/SNAPPY/scikit-surgeryarucotracker/raw/master/project-icon.png
@@ -94,7 +94,7 @@ Licensing and copyright
 -----------------------
 
 Copyright 2019 University College London.
-scikit-surgerytracker is released under the BSD-3 license. Please see the `license file`_ for details.
+scikit-surgeryarucotracker is released under the BSD-3 license. Please see the `license file`_ for details.
 
 
 Acknowledgements
