@@ -27,7 +27,7 @@ scikit-surgeryarucotracker provides a simple Python interface between OpenCV's A
 
 scikit-surgeryarucotracker is part of the `SNAPPY`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
 
-scikit-surgeryarucotracker supports Python 2.7 and Python 3.6.
+scikit-surgeryarucotracker is tested with Python 3.6 and may support other Python versions.
 
 Installing
 ----------
