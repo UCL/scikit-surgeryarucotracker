@@ -3,7 +3,7 @@
 """A class for straightforward tracking with an ARuCo
 """
 from time import time
-from numpy import nditer, array, mean, float32
+from numpy import nditer, array, mean, float32, loadtxt
 from numpy import min as npmin
 from numpy import max as npmax
 from numpy.linalg import norm
@@ -15,6 +15,12 @@ from sksurgerycore.transforms.matrix import (construct_rotm_from_euler,
                                              construct_rigid_transformation)
 
 def _get_poses_without_calibration(marker_corners):
+    """
+    Returns a tracking data for and uncalibrated camera.
+    x and y are the screen pixel coordinates.
+    z is based on the size of the tag in pixels, there is no
+    rotation
+    """
     tracking = []
     for marker in marker_corners:
         means = mean(marker[0], axis=0)
@@ -28,6 +34,14 @@ def _get_poses_without_calibration(marker_corners):
     return tracking
 
 
+def _load_calibration(textfile):
+    """
+    loads a calibration from a text file
+    """
+    projection_matrix = loadtxt(textfile, dtype=float32, max_rows=3)
+    distortion = loadtxt(textfile, dtype=float32, skiprows=3, max_rows=1)
+
+    return projection_matrix, distortion
 
 class ArUcoTracker:
     """
@@ -87,12 +101,9 @@ class ArUcoTracker:
         if "marker size" in configuration:
             self._marker_size = configuration.get("marker size")
 
-        if "camera distortion" in configuration:
-            self._camera_distortion = configuration.get("camera distortion")
-
-        if "camera projection matrix" in configuration:
-            self._camera_projection_matrix = \
-                    configuration.get("camera projection matrix")
+        if "calibration" in configuration:
+            self._camera_projection_matrix, self._camera_distortion = \
+                _load_calibration(configuration.get("calibration"))
             self._check_pose_estimation_ok()
 
         if self._capture.open(video_source):
