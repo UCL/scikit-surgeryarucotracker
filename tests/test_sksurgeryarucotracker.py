@@ -3,7 +3,6 @@
 """scikit-surgerytracker tests"""
 
 import pytest
-from numpy import array, float32
 from sksurgeryarucotracker.arucotracker import ArUcoTracker
 
 
@@ -90,13 +89,8 @@ def test_on_video_with_calib():
     reqs: 03, 04 ,05
     """
     config1 = {'video source' : 'data/output.avi',
-               'camera projection matrix' : array([[560.0, 0.0, 320.0],
-                                                   [0.0, 560.0, 240.0],
-                                                   [0.0, 0.0, 1.0]],
-                                                  dtype=float32),
+               'calibration' : 'data/calibration.txt',
                'marker size' : 50,
-               'camera distortion' : array([0.1, 0.1, 0.0, 0.0, 0.0],
-                                           dtype=float32)
               }
 
     tracker = ArUcoTracker(config1)
@@ -127,9 +121,7 @@ def test_throw_on_bad_calibration():
     reqs:
     """
     config = {'video source' : 'data/output.avi',
-              'camera projection matrix' : array([[560.0, 0.0],
-                                                  [0.0, 560.0],
-                                                  [0.0, 0.0]], dtype=float32)
+              'calibration' : 'data/bad_calibration.txt'
              }
 
     with pytest.raises(ValueError):
