@@ -1,6 +1,6 @@
 # coding=utf-8
 
-"""scikit-surgerytracker tests"""
+"""scikit-surgeryarucotracker tests"""
 
 import pytest
 from sksurgeryarucotracker.arucotracker import ArUcoTracker
