@@ -1,2 +1,2 @@
 include versioneer.py
-include scikit-surgeryarucotracker/_version.py
+include sksurgeryarucotracker/_version.py
