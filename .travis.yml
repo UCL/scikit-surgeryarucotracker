@@ -20,7 +20,7 @@ install:
 
 script:
  - coverage erase
- - coverage run -a --source ./sksurgeryarucoracker -m pytest -v -s ./tests/
+ - coverage run -a --source ./sksurgeryarucotracker -m pytest -v -s ./tests/
  - coverage report -m
  - pylint --rcfile=tests/pylintrc sksurgeryarucotracker tests
 
