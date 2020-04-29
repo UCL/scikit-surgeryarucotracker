@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-Setup for scikit-surgerytracker
+Setup for scikit-surgeryarucotracker
 """
 
 from setuptools import setup, find_packages
@@ -59,7 +59,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'scikit-surgerytracker=sksurgeryarucotracker.__main__:main',
+            'scikit-surgeryarucotracker=sksurgeryarucotracker.__main__:main',
         ],
     },
 )
