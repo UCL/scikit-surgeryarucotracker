@@ -1,5 +1,8 @@
 language: python
 
+services:
+  - xfb
+
 matrix:
  include:
   - os: linux
