@@ -12,7 +12,10 @@ from cv2 import VideoCapture, imshow
 import cv2
 
 from sksurgerycore.transforms.matrix import (construct_rotm_from_euler,
-                                             construct_rigid_transformation)
+                                             construct_rigid_transformation,
+                                             )
+
+from sksurgerycore.baseclasses.tracker import SKSBaseTracker
 
 def _get_poses_without_calibration(marker_corners):
     """
@@ -43,7 +46,7 @@ def _load_calibration(textfile):
 
     return projection_matrix, distortion
 
-class ArUcoTracker:
+class ArUcoTracker(SKSBaseTracker):
     """
     Base class for communication with trackers.
     Ideally all surgery tracker classes will implement
