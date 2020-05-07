@@ -7,9 +7,9 @@ scikit-surgeryarucotracker
    :target: https://github.com/UCL/scikit-surgeryarucotracker
    :alt: Logo
 
-.. image:: https://travis-ci.com/UCL/scikit-surgeryarucotracker.svg?branch=master
-   :target: https://travis-ci.com/github/UCL/scikit-surgeryarucotracker
-   :alt: Travis CI test status
+.. image:: https://github.com/UCL/scikit-surgeryarucotracker/workflows/.github/workflows/ci.yml/badge.svg
+   :target: https://github.com/UCL/scikit-surgeryarucotracker/actions/
+   :alt: GitHub CI test status
 
 .. image:: https://coveralls.io/repos/github/UCL/scikit-surgeryarucotracker/badge.svg?branch=master&service=github 
     :target: https://coveralls.io/github/UCL/scikit-surgeryarucotracker?branch=master
