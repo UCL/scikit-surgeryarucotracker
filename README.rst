@@ -42,15 +42,15 @@ Configuration is done using Python libraries. Tracking data is returned in NumPy
 
 ::
 
-    from sksurgerarucotracker.tracker import ARuCoTracker
-    SETTINGS = {
+    from sksurgeryarucotracker.arucotracker import ArUcoTracker
+    config = {
         "video source" : 0
             }
-    TRACKER = ARuCo()
-    TRACKER.connect(SETTINGS)
+    TRACKER = ArUcoTracker(config)
+    TRACKER.connect()
 
     TRACKER.start_tracking()
-    print(TRACKER.get_frame()
+    print(TRACKER.get_frame())
     TRACKER.stop_tracking()
     TRACKER.close()
 
