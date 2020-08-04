@@ -3,8 +3,8 @@
 """scikit-surgeryarucotracker tests"""
 
 import pytest
+from cv2 import VideoCapture
 from sksurgeryarucotracker.arucotracker import ArUcoTracker
-
 
 def test_on_video_with_single_tag():
     """
@@ -18,6 +18,27 @@ def test_on_video_with_single_tag():
     for _ in range(10):
         (_port_handles, _timestamps, _framenumbers,
          _tracking, _quality) = tracker.get_frame()
+
+    tracker.stop_tracking()
+    tracker.close()
+
+
+def test_no_video_single_tag():
+    """
+    connect track and close with single tag,
+    reqs: 03, 04 ,05
+    """
+    config = {'video source' : 'none'}
+
+    tracker = ArUcoTracker(config)
+    tracker.start_tracking()
+    with pytest.raises(ValueError):
+        tracker.get_frame()
+    capture = VideoCapture('data/output.avi')
+    for _ in range(10):
+        _, frame = capture.read()
+        (_port_handles, _timestamps, _framenumbers,
+         _tracking, _quality) = tracker.get_frame(frame)
 
     tracker.stop_tracking()
     tracker.close()
