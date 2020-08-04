@@ -1,9 +1,9 @@
 scikit-surgeryarucotracker
 ===============================
 
-.. image:: https://github.com/UCL/scikit-surgeryarucotracker/raw/master/project-icon.png 
-   :height: 128px
-   :width: 128px
+.. image:: https://github.com/UCL/scikit-surgerytutorial01/raw/master/doc/vtk_overlay_aruco_example.gif
+   :height: 64px
+   :width: 64px
    :target: https://github.com/UCL/scikit-surgeryarucotracker
    :alt: Logo
 
@@ -19,13 +19,16 @@ scikit-surgeryarucotracker
     :target: http://scikit-surgeryarucotracker.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+.. image:: https://img.shields.io/badge/Cite-SciKit--Surgery-informational
+   :target: https://doi.org/10.1007/s11548-020-02180-5
+   :alt: The SciKit-Surgery paper
 
 
 Author: Stephen Thompson
 
 scikit-surgeryarucotracker provides a simple Python interface between OpenCV's ARuCo marker tracking libraries and other Python packages designed around scikit-surgerytrackers. It allows you to treat an object tracked using ARuCo markers in the same way as an object tracked using other tracking hardware (e.g. aruco - scikit-surgerynditracker). 
 
-scikit-surgeryarucotracker is part of the `SNAPPY`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
+scikit-surgeryarucotracker is part of the `SciKit-Surgery`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
 
 scikit-surgeryarucotracker is tested with Python 3.6 and may support other Python versions.
 
@@ -106,7 +109,7 @@ Supported by `Wellcome`_ and `EPSRC`_.
 .. _`Wellcome EPSRC Centre for Interventional and Surgical Sciences`: http://www.ucl.ac.uk/weiss
 .. _`source code repository`: https://github.com/UCL/scikit-surgeryarucotracker
 .. _`Documentation`: https://scikit-surgeryarucotracker.readthedocs.io
-.. _`SNAPPY`: https://github.com/UCL/scikit-surgery/wikis/home
+.. _`SciKit-Surgery`: https://github.com/UCL/scikit-surgery/wikis/home
 .. _`University College London (UCL)`: http://www.ucl.ac.uk/
 .. _`Wellcome`: https://wellcome.ac.uk/
 .. _`EPSRC`: https://www.epsrc.ac.uk/
