@@ -72,9 +72,11 @@ class ArUcoTracker(SKSBaseTracker):
         """
 
         self._ar_dict = None
-        self._camera_projection_matrix = None
-        self._camera_distortion = array([0.0, 0.0, 0.0, 0.0, 0.0],
-                                        dtype=float32)
+        self._camera_projection_matrix = configuration.get("camera projection",
+                                                           None)
+        self._camera_distortion = configuration.get(
+                        "camera distortion", array([0.0, 0.0, 0.0, 0.0, 0.0],
+                                                   dtype=float32))
         self._use_camera_projection = False
         self._state = None
 
@@ -106,7 +108,8 @@ class ArUcoTracker(SKSBaseTracker):
         if "calibration" in configuration:
             self._camera_projection_matrix, self._camera_distortion = \
                 _load_calibration(configuration.get("calibration"))
-            self._check_pose_estimation_ok()
+
+        self._check_pose_estimation_ok()
 
         if video_source != 'none':
             if self._capture.open(video_source):
@@ -129,6 +132,10 @@ class ArUcoTracker(SKSBaseTracker):
     def _check_pose_estimation_ok(self):
         """Checks that the camera projection matrix and camera distortion
         matrices can be used to estimate pose"""
+        if self._camera_projection_matrix is None:
+            self._use_camera_projection = False
+            return
+
         if (self._camera_projection_matrix.shape == (3, 3) and
                 self._camera_projection_matrix.dtype == float32):
             self._use_camera_projection = True
