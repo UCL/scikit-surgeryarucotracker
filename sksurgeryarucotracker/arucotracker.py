@@ -72,22 +72,22 @@ class ArUcoTracker(SKSBaseTracker):
         """
 
         self._ar_dict = None
-        self._marker_size = 50
         self._camera_projection_matrix = None
         self._camera_distortion = array([0.0, 0.0, 0.0, 0.0, 0.0],
                                         dtype=float32)
         self._use_camera_projection = False
         self._state = None
-        self._capture = VideoCapture()
+
         self._frame_number = 0
-        self._debug = False
 
-        if "debug" in configuration:
-            self._debug = configuration.get("debug")
+        self._debug = configuration.get("debug", False)
 
-        video_source = 0
-        if "video source" in configuration:
-            video_source = configuration.get("video source")
+        video_source = configuration.get("video source", 0)
+
+        if video_source != 'none':
+            self._capture = VideoCapture()
+        else:
+            self._capture = None
 
         ar_dictionary_name = getattr(aruco, 'DICT_4X4_50')
         if "aruco dictionary" in configuration:
@@ -101,29 +101,30 @@ class ArUcoTracker(SKSBaseTracker):
 
         self._ar_dict = aruco.getPredefinedDictionary(ar_dictionary_name)
 
-        if "marker size" in configuration:
-            self._marker_size = configuration.get("marker size")
+        self._marker_size = configuration.get("marker size", 50)
 
         if "calibration" in configuration:
             self._camera_projection_matrix, self._camera_distortion = \
                 _load_calibration(configuration.get("calibration"))
             self._check_pose_estimation_ok()
 
-        if self._capture.open(video_source):
-            #try setting some properties
-            if "capture properties" in configuration:
-                props = configuration.get("capture properties")
-                for prop in props:
-                    cvprop = getattr(cv2, prop)
-                    value = props[prop]
-                    self._capture.set(cvprop, value)
+        if video_source != 'none':
+            if self._capture.open(video_source):
+                #try setting some properties
+                if "capture properties" in configuration:
+                    props = configuration.get("capture properties")
+                    for prop in props:
+                        cvprop = getattr(cv2, prop)
+                        value = props[prop]
+                        self._capture.set(cvprop, value)
 
-           # self._capture.set(3,1280)
-           # self._capture.set(4,1024)
-            self._state = "ready"
+                self._state = "ready"
+            else:
+                raise OSError('Failed to open video source {}'
+                              .format(video_source))
         else:
-            raise OSError('Failed to open video source {}'
-                          .format(video_source))
+            self._state = "ready"
+
 
     def _check_pose_estimation_ok(self):
         """Checks that the camera projection matrix and camera distortion
@@ -143,13 +144,16 @@ class ArUcoTracker(SKSBaseTracker):
 
         :raise Exception: ValueError
         """
-        self._capture.release()
-        del self._capture
+        if self._capture is not None:
+            self._capture.release()
+            del self._capture
         self._state = None
 
-    def get_frame(self):
+    def get_frame(self, frame=None):
         """Gets a frame of tracking data from the Tracker device.
 
+        :params frame: an image to process, if None, we use the OpenCV
+            video source.
         :return:
             port_numbers : list of port handles, one per tool
 
@@ -168,7 +172,11 @@ class ArUcoTracker(SKSBaseTracker):
         if self._state != "tracking":
             raise ValueError('Attempted to get frame, when not tracking')
 
-        _, frame = self._capture.read()
+        if self._capture is not None:
+            _, frame = self._capture.read()
+
+        if frame is None:
+            raise ValueError('Frame not set, and capture.read failed')
 
         marker_corners, marker_ids, _ = \
                 aruco.detectMarkers(frame, self._ar_dict)
