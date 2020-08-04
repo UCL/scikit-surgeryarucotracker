@@ -23,6 +23,9 @@ scikit-surgeryarucotracker
    :target: https://doi.org/10.1007/s11548-020-02180-5
    :alt: The SciKit-Surgery paper
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3971640.svg
+   :target: https://doi.org/10.5281/zenodo.3971640
+   :alt: Software DOI
 
 Author: Stephen Thompson
 
