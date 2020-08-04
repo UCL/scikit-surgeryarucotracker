@@ -1,9 +1,9 @@
 scikit-surgeryarucotracker
 ===============================
 
-.. image:: https://github.com/UCL/scikit-surgerytutorial01/raw/master/doc/vtk_overlay_aruco_example.gif
-   :height: 64px
-   :width: 64px
+.. image:: https://github.com/UCL/scikit-surgeryarucotracker/raw/master/project-icon.gif
+   :height: 128px
+   :width: 128px
    :target: https://github.com/UCL/scikit-surgeryarucotracker
    :alt: Logo
 
