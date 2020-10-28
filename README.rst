@@ -7,6 +7,8 @@ scikit-surgeryarucotracker
    :target: https://github.com/UCL/scikit-surgeryarucotracker
    :alt: Logo
 
+|
+
 .. image:: https://github.com/UCL/scikit-surgeryarucotracker/workflows/.github/workflows/ci.yml/badge.svg
    :target: https://github.com/UCL/scikit-surgeryarucotracker/actions/
    :alt: GitHub CI test status
@@ -34,6 +36,10 @@ scikit-surgeryarucotracker provides a simple Python interface between OpenCV's A
 scikit-surgeryarucotracker is part of the `SciKit-Surgery`_ software project, developed at the `Wellcome EPSRC Centre for Interventional and Surgical Sciences`_, part of `University College London (UCL)`_.
 
 scikit-surgeryarucotracker is tested with Python 3.6 and may support other Python versions.
+
+.. features-start
+
+.. features-end
 
 Installing
 ----------
