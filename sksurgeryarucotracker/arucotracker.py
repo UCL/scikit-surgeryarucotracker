@@ -99,7 +99,7 @@ class ArUcoTracker(SKSBaseTracker):
             except AttributeError:
                 raise ImportError(('Failed when trying to import {} from cv2.'
                                    'aruco. Check dictionary exists.')
-                                  .format(dictionary_name))
+                                  .format(dictionary_name)) from AttributeError
 
         self._ar_dict = aruco.getPredefinedDictionary(ar_dictionary_name)
 
